@@ -173,19 +173,19 @@ async function execute(message, serverQueue) {
 	} else {
 		serverQueue.songs.push(song);
 		console.log(serverQueue.songs);
-		return message.channel.send(`${song.title} has been added to the queue!`);
+		return message.channel.send(`${song.title} is toegevoegd aan de wachtrij`);
 	}
 
 }
 
 function skip(message, serverQueue) {
-	if (!message.member.voiceChannel) return message.channel.send('You have to be in a voice channel to stop the music!');
-	if (!serverQueue) return message.channel.send('There is no song that I could skip!');
+	if (!message.member.voiceChannel) return message.channel.send('Je moet in een voice kanaal zitten om muziek te stoppen');
+	if (!serverQueue) return message.channel.send('Er is geen liedje dat ik kan skippen');
 	serverQueue.connection.dispatcher.end();
 }
 
 function stop(message, serverQueue) {
-	if (!message.member.voiceChannel) return message.channel.send('You have to be in a voice channel to stop the music!');
+	if (!message.member.voiceChannel) return message.channel.send('Je moet in een voice kanaal zitten om muziek te stoppen ')
 	serverQueue.songs = [];
 	serverQueue.connection.dispatcher.end();
 }
