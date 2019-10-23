@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args)=>{
     setTimeout(function(){
         tomute.removeRole(muterole.id);
         message.channel.send(`<@${tomute.id}> is succesvol geunmute!`);
-    }), ms(mutetime);
+    }, ms(mutetime));
 
 }
 
