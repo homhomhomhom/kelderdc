@@ -85,22 +85,24 @@ bot.on('guildMemberRemove', (member, guild) => {
 
 //aankodiging
 
-bot.on("message", message => {
-    if (message.author.bot) return
-    let messageArray = message.content.split(" ")
-    let command = messageArray[0]
-    let args = messageArray.slice(1)
+// bot.on("message", message => {
+//     if (message.author.bot) return
+//     let messageArray = message.content.split(" ")
+//     let command = messageArray[0]
+//     let args = messageArray.slice(1)
 
-    if (message.channel.type === "dm") return
+//     if (message.channel.type === "dm") return
 
-    if (!message.content.startsWith(botconfig.prefix)) return
-
-    if (command === botconfig.prefix + 'announce') {
-        let channel = message.guild.channels.get("609482938651901955")
-        let announcement = args.slice(0).join(" ")
-        channel.send(announcement)
-    }
-})
+//     if (!message.content.startsWith(botconfig.prefix)) return
+	
+//     if (command === botconfig.prefix + 'announce') {
+//         let channel = message.guild.channels.get("609482938651901955")
+//         let announcement = args.slice(0).join(" ")
+//         channel.send(announcement)
+//     }else if( announcement.length <= 0){
+// 		message.channel.send('wat de kanker wil je announcen')
+// 	}
+// })
 
 bot.on("message", message => {
     const channelV = bot.channels.find(ch => ch.name === 'verificatie')
