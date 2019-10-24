@@ -173,7 +173,39 @@ bot.on('message', message=>{
     }
 })
 
-//starboard
+//color
+
+bot.on('message', message=>{
+    let args = message.content.substring(botconfig.prefix.length).split(" ")
+        switch(args[0]){
+            case 'Groen'.toLowerCase():
+                let groen = message.guild.roles.find(r => r.name === "Groen")
+                const memberG = message.member
+                memberG.addRole(groen).catch(console.error)
+            break
+            case 'Paars'.toLowerCase():
+                let paars = message.guild.roles.find(r => r.name ===  'Paars')
+                const memberP = message.member
+                memberP.addRole(paars).catch(console.error)
+            break
+            case 'Roze'.toLowerCase():
+                let roze = message.guild.roles.find(r => r.name === 'Roze')
+                const memberR = message.member
+                memberR.addRole(roze).catch(console.error)
+            break
+            case 'Blauw'.toLowerCase(): 
+                let blauw = message.guild.roles.find(r => r.name==="Blauw")
+                const memberB = message.member
+                memberB.addRole(blauw).catch(console.error)
+            break
+            case 'Rood'.toLowerCase():
+                let rood = message.guild.roles.find(r => r.name === 'Rood')
+                const memberRO = message.member
+                memberRO.addRole(rood).catch(console.error)
+            break
+        }
+    
+})
 
 
 bot.login(tokenfile.token || process.env.TOKEN)
