@@ -166,4 +166,4 @@ bot.on('message', message =>{
 //starboard
 
 
-bot.login(tokenfile.token)
+bot.login(process.env.TOKEN)
