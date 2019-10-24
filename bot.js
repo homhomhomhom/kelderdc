@@ -1,7 +1,6 @@
 const Discord = require("discord.js")
 const fs = require("fs")
 const bot = new Discord.Client()
-const tokenfile = require('./token.json')
 const botconfig = require('./botconfig.json')
 let cooldown = new Set();
 let cdseconds = 5;
@@ -9,7 +8,7 @@ let prefix = botconfig.prefix
 const ytdl = require('ytdl-core')
 const queue = new Map()
 var servers = {}
-
+const tokenfile = require('./token.json')
 bot.commands = new Discord.Collection()
 fs.readdir("./commands/", (err, files) => {
     if (err) console.log(err);
@@ -163,7 +162,18 @@ bot.on('message', message =>{
     }
 })
 
+bot.on('message', message=>{
+    if(message.content === botconfig.prefix + 'clear'){
+        if(message.member.hasPermission("MANAGE_MESSAGES")){
+            message.channel.fetchMessages()
+            .then(function(list){
+                message.channel.bulkDelete(list)
+            },function(err){message.channel.send('Niet gelukt')})
+        }
+    }
+})
+
 //starboard
 
 
-bot.login(process.env.TOKEN)
+bot.login(tokenfile.token || process.env.TOKEN)
