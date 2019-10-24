@@ -14,14 +14,14 @@ module.exports.run = async(bot, message, args)=>{
         return message.channel.send("Opgekankerd, kanker homo")
     }
     let bReason = args.join(" ").slice(22)
-    if(!bReason) return errors.noReason(message.channel)
+    if(!bReason) bReason = 'Stoffelo is onze papa'
 
     let banEmbed = new Discord.RichEmbed()
         .setDescription('Ban')
         .setColor("#bc0000")
         .addField('Gebruiker verbannen', `${bUser} with id ${bUser.id}`)
         .addField('Verbannen door', `<@${message.author.id}> with id ${message.author.id}`)
-        .addField("Reason", bReason)
+        .addField("Reden", bReason)
 
     message.guild.member(bUser).ban(bReason)
     message.channel.send(banEmbed)
