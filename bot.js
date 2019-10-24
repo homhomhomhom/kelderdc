@@ -94,74 +94,74 @@ bot.on("message", message => {
     }
 })	
 
-bot.on('message', message =>{
-    let args = message.content.substring(botconfig.prefix.length).split(" ")
+// bot.on('message', message =>{
+//     let args = message.content.substring(botconfig.prefix.length).split(" ")
 
-    switch(args[0]){
-        case 'play':
+//     switch(args[0]){
+//         case 'play':
 
-            function play(connection, message){
-                var server = servers[message.guild.id]
-                server.dispatcher = connection.playStream(ytdl(server.queue[0], {filter: 'audioonly'}))
+//             function play(connection, message){
+//                 var server = servers[message.guild.id]
+//                 server.dispatcher = connection.playStream(ytdl(server.queue[0], {filter: 'audioonly'}))
 
-                server.queue.shift()
+//                 server.queue.shift()
 
-                server.dispatcher.on("end", function(){
-                    if(server.queue[0]){
-                        play(connection, message)
-                    }else{
-                        connection.disconnect()
-                    }
-                })
-            }
+//                 server.dispatcher.on("end", function(){
+//                     if(server.queue[0]){
+//                         play(connection, message)
+//                     }else{
+//                         connection.disconnect()
+//                     }
+//                 })
+//             }
 
-            if(!args[1]){
-                message.channel.send('Wat wil je dat ik afspeel?')
-                return
-            }
+//             if(!args[1]){
+//                 message.channel.send('Wat wil je dat ik afspeel?')
+//                 return
+//             }
 
-            if(!message.member.voiceChannel){
-                message.channel.send('Je moet in een voice kanaal zitten.')
-                return
-            }
+//             if(!message.member.voiceChannel){
+//                 message.channel.send('Je moet in een voice kanaal zitten.')
+//                 return
+//             }
 
-            if(!servers[message.guild.id]) servers[message.guild.id] = {
-                queue: []
-            }
+//             if(!servers[message.guild.id]) servers[message.guild.id] = {
+//                 queue: []
+//             }
 
-            var server = servers[message.guild.id]
+//             var server = servers[message.guild.id]
 
-            server.queue.push(args[1])
+//             server.queue.push(args[1])
 
-            if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection){
-                play(connection, message)
-            })
-        break
+//             if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection){
+//                 play(connection, message)
+//             })
+//         break
 
 
-        case 'skip':
-            var server = servers[message.guild.id]
-                if(server.dispatcher) server.dispatcher.end()
-                message.channel.send('Huidig liedje skippen')
-        break
+//         case 'skip':
+//             var server = servers[message.guild.id]
+//                 if(server.dispatcher) server.dispatcher.end()
+//                 message.channel.send('Huidig liedje skippen')
+//         break
         
-        case 'stop':
-            var server = servers[message.guild.id]
-            if(message.guild.voiceConnection){
-                for(var i = server.queue.length -1; i>=0; i--){
-                    server.queue.splice(i, 1)
-                }
+//         case 'stop':
+//             var server = servers[message.guild.id]
+//             if(message.guild.voiceConnection){
+//                 for(var i = server.queue.length -1; i>=0; i--){
+//                     server.queue.splice(i, 1)
+//                 }
 
-                server.dispatcher.end()
-                message.channel.send('Queue is geeindigt')
-                console.log('stopped the queue')
-            }
+//                 server.dispatcher.end()
+//                 message.channel.send('Queue is geeindigt')
+//                 console.log('stopped the queue')
+//             }
 
-            if(message.guild.connection) message.guild.voiceConnection.disconnect()
-        break
+//             if(message.guild.connection) message.guild.voiceConnection.disconnect()
+//         break
 
-    }
-})
+//     }
+// })
 
 //starboard
 
