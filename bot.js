@@ -208,4 +208,14 @@ bot.on('message', message=>{
 })
 
 
+bot.on('message', message=>{
+    const channelK = bot.channels.find(ch => ch.name === 'kleurtjes')
+
+    if(message.channel === (channelK)){
+        message.delete(5000)
+    }else{
+        return 
+    }
+})
+
 bot.login(tokenfile.token || process.env.TOKEN)
