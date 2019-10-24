@@ -86,8 +86,6 @@ bot.on('guildMemberRemove', (member, guild) => {
 
 bot.on("message", message => {
     const channelV = bot.channels.find(ch => ch.name === 'verificatie')
-    if (message.author.bot) return
-    if (message.channel.type === 'dm') return
     if (message.channel == (channelV)) {
         message.delete(1000)
     }

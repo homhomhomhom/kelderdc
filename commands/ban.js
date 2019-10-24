@@ -19,8 +19,8 @@ module.exports.run = async(bot, message, args)=>{
     let banEmbed = new Discord.RichEmbed()
         .setDescription('Ban')
         .setColor("#bc0000")
-        .addField('Gebruiker verbannen', `${bUser} with id ${bUser.id}`)
-        .addField('Verbannen door', `<@${message.author.id}> with id ${message.author.id}`)
+        .addField('Gebruiker verbannen', bUser.user.username)
+        .addField('Verbannen door', message.author.username)
         .addField("Reden", bReason)
 
     message.guild.member(bUser).ban(bReason)
