@@ -8,6 +8,8 @@ let cdseconds = 5;
 let prefix = botconfig.prefix
 const ytdl = require('ytdl-core')
 const queue = new Map()
+var servers = {}
+
 bot.commands = new Discord.Collection()
 fs.readdir("./commands/", (err, files) => {
     if (err) console.log(err);
@@ -27,7 +29,7 @@ fs.readdir("./commands/", (err, files) => {
 
 bot.on('ready', async () => {
     console.log(`${bot.user.username} is online on ${bot.guilds.size} servers`)
-    bot.user.setActivity("Over de Kelder. || V0.8", {
+    bot.user.setActivity("Over de Kelder. || V0.9", {
         type: "WATCHING"
     })
 })
@@ -83,27 +85,6 @@ bot.on('guildMemberRemove', (member, guild) => {
     channel.send(`Oei, daar gaat **${member}** 😔`);
 })
 
-//aankodiging
-
-// bot.on("message", message => {
-//     if (message.author.bot) return
-//     let messageArray = message.content.split(" ")
-//     let command = messageArray[0]
-//     let args = messageArray.slice(1)
-
-//     if (message.channel.type === "dm") return
-
-//     if (!message.content.startsWith(botconfig.prefix)) return
-	
-//     if (command === botconfig.prefix + 'announce') {
-//         let channel = message.guild.channels.get("609482938651901955")
-//         let announcement = args.slice(0).join(" ")
-//         channel.send(announcement)
-//     }else if( announcement.length <= 0){
-// 		message.channel.send('wat de kanker wil je announcen')
-// 	}
-// })
-
 bot.on("message", message => {
     const channelV = bot.channels.find(ch => ch.name === 'verificatie')
     if (message.author.bot) return
@@ -111,108 +92,76 @@ bot.on("message", message => {
     if (message.channel == (channelV)) {
         message.delete(1000)
     }
+})	
+
+bot.on('message', message =>{
+    let args = message.content.substring(botconfig.prefix.length).split(" ")
+
+    switch(args[0]){
+        case 'play':
+
+            function play(connection, message){
+                var server = servers[message.guild.id]
+                server.dispatcher = connection.playStream(ytdl(server.queue[0], {filter: 'audioonly'}))
+
+                server.queue.shift()
+
+                server.dispatcher.on("end", function(){
+                    if(server.queue[0]){
+                        play(connection, message)
+                    }else{
+                        connection.disconnect()
+                    }
+                })
+            }
+
+            if(!args[1]){
+                message.channel.send('Wat wil je dat ik afspeel?')
+                return
+            }
+
+            if(!message.member.voiceChannel){
+                message.channel.send('Je moet in een voice kanaal zitten.')
+                return
+            }
+
+            if(!servers[message.guild.id]) servers[message.guild.id] = {
+                queue: []
+            }
+
+            var server = servers[message.guild.id]
+
+            server.queue.push(args[1])
+
+            if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection){
+                play(connection, message)
+            })
+        break
+
+
+        case 'skip':
+            var server = servers[message.guild.id]
+                if(server.dispatcher) server.dispatcher.end()
+                message.channel.send('Huidig liedje skippen')
+        break
+        
+        case 'stop':
+            var server = servers[message.guild.id]
+            if(message.guild.voiceConnection){
+                for(var i = server.queue.length -1; i>=0; i--){
+                    server.queue.splice(i, 1)
+                }
+
+                server.dispatcher.end()
+                message.channel.send('Queue is geeindigt')
+                console.log('stopped the queue')
+            }
+
+            if(message.guild.connection) message.guild.voiceConnection.disconnect()
+        break
+
+    }
 })
-
-// bot.on('message', async message => {
-// 	if (message.author.bot) return;
-// 	if (!message.content.startsWith(prefix)) return;
-
-// 	const serverQueue = queue.get(message.guild.id);
-
-// 	if (message.content.startsWith(`${prefix}play`)) {
-// 		execute(message, serverQueue);
-// 		return;
-// 	} else if (message.content.startsWith(`${prefix}skip`)) {
-// 		skip(message, serverQueue);
-// 		return;
-// 	} else if (message.content.startsWith(`${prefix}stop`)) {
-// 		stop(message, serverQueue);
-// 		return;
-// 	} else {
-// 		message.channel.send('Wat de kanker was dat')
-// 	}
-// });
-
-// async function execute(message, serverQueue) {
-// 	const args = message.content.split(' ');
-
-// 	const voiceChannel = message.member.voiceChannel;
-// 	if (!voiceChannel) return message.channel.send('Je moet in een kanaal zitten!');
-// 	const permissions = voiceChannel.permissionsFor(message.client.user);
-// 	if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
-// 		return message.channel.send('Ik heb toestemming nodig om de vc te joinen!');
-// 	}
-
-// 	const songInfo = await ytdl.getInfo(args[1]);
-// 	const song = {
-// 		title: songInfo.title,
-// 		url: songInfo.video_url,
-// 	};
-
-// 	if (!serverQueue) {
-// 		const queueContruct = {
-// 			textChannel: message.channel,
-// 			voiceChannel: voiceChannel,
-// 			connection: null,
-// 			songs: [],
-// 			volume: 5,
-// 			playing: true,
-// 		};
-
-// 		queue.set(message.guild.id, queueContruct);
-
-// 		queueContruct.songs.push(song);
-
-// 		try {
-// 			var connection = await voiceChannel.join();
-// 			queueContruct.connection = connection;
-// 			play(message.guild, queueContruct.songs[0]);
-// 		} catch (err) {
-// 			console.log(err);
-// 			queue.delete(message.guild.id);
-// 			return message.channel.send(err);
-// 		}
-// 	} else {
-// 		serverQueue.songs.push(song);
-// 		console.log(serverQueue.songs);
-// 		return message.channel.send(`${song.title} is toegevoegd aan de wachtrij`);
-// 	}
-
-// }
-
-// function skip(message, serverQueue) {
-// 	if (!message.member.voiceChannel) return message.channel.send('Je moet in een voice kanaal zitten om muziek te stoppen');
-// 	if (!serverQueue) return message.channel.send('Er is geen liedje dat ik kan skippen');
-// 	serverQueue.connection.dispatcher.end();
-// }
-
-// function stop(message, serverQueue) {
-// 	if (!message.member.voiceChannel) return message.channel.send('Je moet in een voice kanaal zitten om muziek te stoppen ')
-// 	serverQueue.songs = [];
-// 	serverQueue.connection.dispatcher.end();
-// }
-
-// function play(guild, song) {
-// 	const serverQueue = queue.get(guild.id);
-
-// 	if (!song) {
-// 		serverQueue.voiceChannel.leave();
-// 		queue.delete(guild.id);
-// 		return;
-// 	}
-
-// 	const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
-// 		.on('end', () => {
-// 			console.log('Music ended!');
-// 			serverQueue.songs.shift();
-// 			play(guild, serverQueue.songs[0]);
-// 		})
-// 		.on('error', error => {
-// 			console.error(error);
-// 		});
-// 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-// }
-
 
 //starboard
 
