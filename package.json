@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "bot.js",
-  "engines":{
+  "engines": {
     "node": "10.x"
   },
   "scripts": {
@@ -17,6 +17,7 @@
     "ffmpeg": "0.0.4",
     "ffmpeg-binaries": "^4.0.0",
     "fs": "0.0.1-security",
+    "moment": "^2.24.0",
     "ms": "^2.1.2",
     "opusscript": "0.0.7",
     "superagent": "^5.1.0",
