@@ -208,7 +208,7 @@ bot.on('message', message=>{
 
 bot.on('message', message=>{
     const channelK = bot.channels.find(ch => ch.name === 'kleurtjes')
-
+    if(message.author.bot) return
     if(message.channel === (channelK)){
         message.delete(5000)
     }else{
