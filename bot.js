@@ -28,7 +28,7 @@ fs.readdir("./commands/", (err, files) => {
 
 bot.on('ready', async () => {
     console.log(`${bot.user.username} is online on ${bot.guilds.size} servers`)
-    bot.user.setActivity("Over de Kelder. || V0.9", {
+    bot.user.setActivity("Over de Kelder. || V1.0", {
         type: "WATCHING"
     })
 })
