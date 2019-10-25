@@ -202,9 +202,62 @@ bot.on('message', message=>{
                 memberRO.addRole(rood).catch(console.error)
             break
         }
-    
 })
 
+
+
+//remove color
+
+bot.on('message', message=>{
+    let args = message.content.substring(botconfig.prefix.length).split(" ")
+    let member = message.member
+        switch(args[0]){
+            case 'Groen'.toLowerCase(): 
+                if(member.roles.find(r=> r.name ==='Groen')){
+                    let groen = message.guild.roles.find(r => r.name === 'Groen')
+                    const memberG = message.member
+                    memberG.removeRole(groen).catch(console.error)
+                }else{
+                    return 
+                }
+            break
+            case 'Paars'.toLowerCase(): 
+                if(member.roles.find(r=> r.name ==='Paars')){
+                    let paars = message.guild.roles.find(r => r.name === 'Paars')
+                    const memberP = message.member
+                    memberP.removeRole(paars).catch(console.error)
+                }else{
+                    return 
+                }
+            break
+            case 'Roze'.toLowerCase(): 
+                if(member.roles.find(r=> r.name ==='Roze')){
+                    let roze = message.guild.roles.find(r => r.name === 'Roze')
+                    const memberR = message.member
+                    memberR.removeRole(roze).catch(console.error)
+                }else{
+                    return 
+                }
+            break
+            case 'Blauw'.toLowerCase(): 
+                if(member.roles.find(r=> r.name ==='Blauw')){
+                    let blauw = message.guild.roles.find(r => r.name === 'Blauw')
+                    const memberB = message.member
+                    memberB.removeRole(blauw).catch(console.error)
+                }else{
+                    return 
+                }
+            case 'Rood'.toLowerCase(): 
+                if(member.roles.find(r=> r.name ==='Rood')){
+                    let rood = message.guild.roles.find(r => r.name === 'Rood')
+                    const memberRO = message.member
+                    memberRO.removeRole(rood).catch(console.error)
+                }else{
+                    return 
+                }
+            break
+        }
+})
 
 bot.on('message', message=>{
     const channelK = bot.channels.find(ch => ch.name === 'kleurtjes')
@@ -215,5 +268,7 @@ bot.on('message', message=>{
         return 
     }
 })
+
+
 
 bot.login(tokenfile.token || process.env.TOKEN)
