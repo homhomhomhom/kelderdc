@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 const moment = require('moment')
 let xp = require('../xp.json')
 module.exports.run = async(bot, message, args)=>{
-    let user 
+    let user;
     if(message.mentions.users.first()){
         user = message.mentions.users.first()
     }else{
@@ -16,7 +16,7 @@ module.exports.run = async(bot, message, args)=>{
 
     const embed = new Discord.RichEmbed()
         .setColor("RANDOM")
-        .setThumbnail(message.author.avatarURL)
+        .setThumbnail(user.avatarURL)
         .setTitle(`${user.username} # ${user.discriminator}`)
         .addField("Bijnaam :", `${member.nickname !== null ? `${member.nickname}` : "Geen bijnaam"} `, true)
         .addField("Gemaakt op :", `${moment.utc(member.joinedAt).format("DD/MM/YYYY, HH:mm:ss")}`, true)
