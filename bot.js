@@ -201,6 +201,10 @@ bot.on('message', message=>{
                 const memberRO = message.member
                 memberRO.addRole(rood).catch(console.error)
             break
+            case 'Zwart'.toLowerCase():
+                let zwart = message.guild.roles.find(r => r.name === 'Zwart')
+                const memberZ = message.member
+                memberZ.addRole(zwart).catch(console.error)
         }
 })
 
