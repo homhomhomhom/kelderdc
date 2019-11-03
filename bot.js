@@ -259,6 +259,12 @@ bot.on('message', message=>{
                 }else{
                     return 
                 }
+            case 'Zwart'.toLowerCase():
+                if(member.roles.find(r => r.name === 'Zwart')){
+                    let zwart = message.guild.roles.find(r => r.name === 'Zwart')
+                    const memberZ = message.member
+                    memberZ.removeRole(zwart).catch(console.error)
+                }
             break
         }
 })
