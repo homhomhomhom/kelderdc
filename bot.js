@@ -66,9 +66,7 @@ bot.on("message", async message => {
       .setColor("RANDOM")
       .addField("Nieuw leveltje", curlvl + 1);
 
-    message.channel.send(lvlup).then(msg => {
-      msg.delete(5000);
-    });
+    message.channel.send(lvlup)
 
 
 
