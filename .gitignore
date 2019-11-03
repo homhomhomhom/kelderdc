@@ -1,5 +1,2 @@
-node_modules/
-./xp.json
-botconfig.json
-prefixes.json
-token.json
+node_modules
+*.json
