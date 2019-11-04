@@ -23,6 +23,7 @@
     "node-gyp": "^6.0.1",
     "opusscript": "0.0.7",
     "superagent": "^5.1.0",
+    "weather-js": "^2.0.0",
     "ytdl-core": "^1.0.0"
   }
 }
