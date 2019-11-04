@@ -64,8 +64,8 @@ bot.on("message", async message => {
     let lvlup = new Discord.RichEmbed()
       .setTitle("Leveltje omhoog!")
       .setColor("RANDOM")
-      .addField("Nieuw leveltje", curlvl + 1);
-
+      .addField("Nieuw leveltje", curlvl + 1)
+      .addField('Gebruiker :', xp[message.author.id].lvlup)
     message.channel.send(lvlup)
 
 
@@ -85,7 +85,7 @@ bot.on("message", async message => {
 
       member.roleAdd(roleLvlTwenty)
     }
-
+    
     
   }
   fs.writeFile("./xp.json", JSON.stringify(xp), err => {
@@ -112,7 +112,9 @@ bot.on("message", async message => {
 
   setTimeout(() => {
     cooldown.delete(message.author.id);
-  }, cdseconds * 1000);
+  }, cdseconds * 1000).then(message =>{
+    message.delete(5000)
+  })
 });
 
 bot.on("guildMemberAdd", (member, guild) => {
