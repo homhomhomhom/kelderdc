@@ -14,16 +14,14 @@ module.exports.run = async (bot, message, args)=>{
 
     let muterole = message.guild.roles.find(r => r.name === "Muted")
     if(!muterole) return message.channel.send(`Kanker op`)
-
-    if(!mutee.muterole){
-        message.channel.send('lmao')
+    if(!mutee.roles.find(r=> r.name==="Muted")){
+        message.channel.send('Hallo')
     }else{
         mutee.removeRole(muterole.id).then(()=>{
             message.channel.send(`${mutee.user.username} is geunmute`)
+
         })
     }
-
- 
 }
 
 
