@@ -54,7 +54,7 @@ bot.on("message", async message => {
       level: 1
     };
   }
-
+  user = message.author
   let curxp = xp[message.author.id].xp;
   let curlvl = xp[message.author.id].level;
   let nxtLvl = xp[message.author.id].level * 300;
@@ -62,10 +62,11 @@ bot.on("message", async message => {
   if (nxtLvl <= xp[message.author.id].xp) {
     xp[message.author.id].level = curlvl + 1;
     let lvlup = new Discord.RichEmbed()
+      .setThumbnail(user.avatarURL)
+      .setAuthor(user.username)
       .setTitle("Leveltje omhoog!")
       .setColor("RANDOM")
       .addField("Nieuw leveltje", curlvl + 1)
-      .addField('Gebruiker :', xp[message.author.id].lvlup)
     message.channel.send(lvlup)
 
 
@@ -112,9 +113,7 @@ bot.on("message", async message => {
 
   setTimeout(() => {
     cooldown.delete(message.author.id);
-  }, cdseconds * 1000).then(message =>{
-    message.delete(5000)
-  })
+  }, cdseconds * 1000)
 });
 
 bot.on("guildMemberAdd", (member, guild) => {
