@@ -77,6 +77,16 @@ bot.on("message", async message => {
         const roleLvlTen = message.guild.roles.find(r => r.name ==='Kelder Makker')
         member.addRole(roleLvlTen)
     }
+
+
+    if(xp[message.author.id].level === 20){
+      const member = message.member;
+      const roleLvlTwenty = message.guild.roles.find(r=> r.name ==='Kelder Held')
+
+      member.roleAdd(roleLvlTwenty)
+    }
+
+    
   }
   fs.writeFile("./xp.json", JSON.stringify(xp), err => {
     if (err) console.log(err);
