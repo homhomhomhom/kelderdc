@@ -14,7 +14,7 @@ module.exports.run = async (bot, message, args)=>{
 
     let muterole = message.guild.roles.find(r => r.name === "Muted")
     if(!muterole) return message.channel.send(`Kanker op`)
-    if(!mutee.muterole) return message.channel.send('kanker op')
+
     mutee.removeRole(muterole.id).then(()=>{
         message.channel.send(`${mutee.user.username} is geunmute`)
 
