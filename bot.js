@@ -327,6 +327,12 @@ bot.on("message", message => {
 });
 
 
+bot.on("message", message=>{
+  if(message.author.bot) return
+  if(message.content === 'oopsie'){
+    message.channel.send('Oopsie woopsie, we did a wittle fucky wucky. A wittle facko wacko')
+  }
+})
 
 
 bot.login(tokenfile.token || process.env.TOKEN);
