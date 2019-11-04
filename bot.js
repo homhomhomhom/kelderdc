@@ -17,7 +17,7 @@ fs.readdir("./commands/", (err, files) => {
   if (jsfile.length <= 0) {
     console.log("Couldn't find commands.");
     return;
-  }
+  } 
 
   jsfile.forEach((f, i) => {
     let props = require(`./commands/${f}`);
@@ -75,16 +75,23 @@ bot.on("message", async message => {
 
     if(xp[message.author.id].level === 10){
         const member = message.member;
-        const roleLvlTen = message.guild.roles.find(r => r.name ==='Kelder Makker')
+        const roleLvlTen = message.guild.roles.find(r => r.name ==='Kelder Vrienden')
         member.addRole(roleLvlTen)
     }
 
 
     if(xp[message.author.id].level === 20){
       const member = message.member;
-      const roleLvlTwenty = message.guild.roles.find(r=> r.name ==='Kelder Held')
+      const roleLvlTwenty = message.guild.roles.find(r=> r.name ==='Kelder Makker')
 
       member.roleAdd(roleLvlTwenty)
+    }
+
+    if(xp[message.author.id].level === 30){
+      const member = message.member
+      const roleLvlThirty = message.guild.roles.find(r => r.name === 'Kelder Held')
+      
+      member.roleAdd(roleLvlThirty)
     }
     
     
