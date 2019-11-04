@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
 const fs = require("fs");
+const SQlite = require("better-sqlite3")
+const sql = new SQlite('./xp.sqlite')
 const bot = new Discord.Client();
 const botconfig = require("./botconfig.json");
 let cooldown = new Set();

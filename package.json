@@ -13,12 +13,14 @@
   "author": "Giovanni",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^5.4.3",
     "discord.js": "^11.5.1",
     "ffmpeg": "0.0.4",
     "ffmpeg-binaries": "^4.0.0",
     "fs": "0.0.1-security",
     "moment": "^2.24.0",
     "ms": "^2.1.2",
+    "node-gyp": "^6.0.1",
     "opusscript": "0.0.7",
     "superagent": "^5.1.0",
     "ytdl-core": "^1.0.0"
