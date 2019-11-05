@@ -67,6 +67,9 @@ bot.on("message", async message => {
       .setTitle("Leveltje omhoog!")
       .setColor("RANDOM")
       .addField("Nieuw leveltje", curlvl + 1)
+    
+    if(message.channel == channelK) return;
+    if(message.channel == channelV) return;
     message.channel.send(lvlup)
 
 
@@ -237,7 +240,7 @@ bot.on("message", message => {
       let groen = message.guild.roles.find(r => r.name === "Groen");
       const memberG = message.member;
       memberG.addRole(groen).catch(console.error);
-      break;
+    break;
     case "Paars".toLowerCase():
       let paars = message.guild.roles.find(r => r.name === "Paars");
       const memberP = message.member;
@@ -247,7 +250,7 @@ bot.on("message", message => {
       let roze = message.guild.roles.find(r => r.name === "Roze");
       const memberR = message.member;
       memberR.addRole(roze).catch(console.error);
-      break;
+    break;
     case "Blauw".toLowerCase():
       let blauw = message.guild.roles.find(r => r.name === "Blauw");
       const memberB = message.member;
@@ -325,7 +328,7 @@ bot.on("message", message => {
 });
 
 bot.on("message", message => {
-  const channelK = bot.channels.find(ch => ch.name === "kleurtjes");
+  const channelK = bot.channels.find(ch => ch.id === "641245817692225556");
   if (message.author.bot) return;
   if (message.channel === channelK) {
     message.delete(5000);
