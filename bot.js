@@ -70,21 +70,21 @@ bot.on("message", async message => {
 
     //lvl up roles
 
-    if(xp[message.author.id].level >==10 && <==19){
+    if(xp[message.author.id].level >10 && <20){
         const member = message.member;
         const roleLvlTen = message.guild.roles.find(r => r.name ==='Kelder Vrienden')
         member.addRole(roleLvlTen)
     }
 
 
-    if(xp[message.author.id].level >==20 && <==29){
+    if(xp[message.author.id].level >20 && <30){
       const member = message.member;
       const roleLvlTwenty = message.guild.roles.find(r=> r.name ==='Kelder Makker')
 
       member.roleAdd(roleLvlTwenty)
     }
 
-    if(xp[message.author.id].level >== 30){
+    if(xp[message.author.id].level >30){
       const member = message.member
       const roleLvlThirty = message.guild.roles.find(r => r.name === 'Kelder Held')
       
