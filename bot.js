@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
 const fs = require("fs");
-const bot = new Discord.Client();
+const bot = new Discord.Client({
+  partials: ['MESSAGE']
+});
 const botconfig = require("./botconfig.json");
-let cooldown = new Set();
-let cdseconds = 5;
 let prefix = botconfig.prefix;
 var servers = {};
 let xp = require("./xp.json");
@@ -103,10 +103,6 @@ bot.on("message", async message => {
 
   let prefix = prefixes[message.guild.id].prefixes;
   if (!message.content.startsWith(prefix)) return;
-  if (cooldown.has(message.author.id)) {
-    message.delete();
-    return message.reply("Je moet 5 seconden wachten voordat ik weer zin heb");
-  }
 
   if (!message.member.hasPermission("ADMINISTRATOR")) {
     cooldown.add(message.author.id);
@@ -119,9 +115,6 @@ bot.on("message", async message => {
   let commandfile = bot.commands.get(cmd.slice(prefix.length));
   if (commandfile) commandfile.run(bot, message, args);
 
-  setTimeout(() => {
-    cooldown.delete(message.author.id);
-  }, cdseconds * 1000)
 });
 
 bot.on("guildMemberAdd", (member, guild) => {
@@ -284,6 +277,12 @@ bot.on("message", message=>{
   }
 })
 
+
+//reaction feature
+
+bot.on('messageReactionAdd', (reaction, user)=>{
+  console.log(reaction.emoji.name)
+})
 
 
 
