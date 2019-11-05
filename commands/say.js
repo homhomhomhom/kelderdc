@@ -1,12 +1,15 @@
 const errors = require('../utils/errors.js')
 
 module.exports.run = async (bot, message, args)=>{
-    if(!message.author.hasPermission["MANAGE_MESSAGES"])return errors.noPerms(message, "MANAGE_MESSAGES")
-
     message.delete()
+    if(!message.member.hasPermission("MANAGE_MESSAGES")){
+        errors.noPerms(message, "MANAGE_MESSAGES")
+    }else{
+        let botmessage= args.join(" ")
+        message.channel.send(botmessage)
+    }
     let botmessage= args.join(" ")
     message.channel.send(botmessage)
-
 
 }
 
