@@ -1,8 +1,6 @@
 const Discord = require("discord.js");
 const fs = require("fs");
-const bot = new Discord.Client({
-  partials: ['MESSAGE']
-});
+const bot = new Discord.Client({partials: ['MESSAGE']});
 const botconfig = require("./botconfig.json");
 let prefix = botconfig.prefix;
 var servers = {};
@@ -66,8 +64,6 @@ bot.on("message", async message => {
       .setColor("RANDOM")
       .addField("Nieuw leveltje", curlvl + 1)
     
-    if(message.channel == channelK) return;
-    if(message.channel == channelV) return;
     message.channel.send(lvlup)
 
 
@@ -103,10 +99,6 @@ bot.on("message", async message => {
 
   let prefix = prefixes[message.guild.id].prefixes;
   if (!message.content.startsWith(prefix)) return;
-
-  if (!message.member.hasPermission("ADMINISTRATOR")) {
-    cooldown.add(message.author.id);
-  }
 
   let messageArray = message.content.split(" ");
   let cmd = messageArray[0];
@@ -280,8 +272,13 @@ bot.on("message", message=>{
 
 //reaction feature
 
-bot.on('messageReactionAdd', (reaction, user)=>{
-  console.log(reaction.emoji.name)
+bot.on('messageReactionAdd', async (reaction, user)=>{
+  if(reaction.message.partial){
+    let msg = await reaction.message.fetch();
+    console.log('Cached')
+  }else{
+    console.log('no')
+  }
 })
 
 
