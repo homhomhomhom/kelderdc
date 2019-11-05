@@ -9,12 +9,12 @@ module.exports.run = async(bot,message,args)=>{
     if(!mutee) return message.channel.send("Wie de ronker moet ik muten");
 
     let reason = args.slice(1).join(" ");
-    if(!reason) reason = "No reason given";
+    if(!reason) reason = "Geen reden opgegeven";
 
     let muterole = message.guild.roles.find(`name`, "Muted");
 
     mutee.addRole(muterole.id).then(()=>{
-        mutee.send(`Hey makker, je bent gemute in ${message.guild.name}. The reason give is: ${reason}`)
+        mutee.send(`Hey makker, je bent gemute in ${message.guild.name}. De reden hiervoor is: ${reason}`)
         message.channel.send(`${mutee.user.username} is succesvol gemute`)
     })
 
