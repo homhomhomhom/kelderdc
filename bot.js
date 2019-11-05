@@ -292,7 +292,7 @@ bot.on('messageReactionAdd', async (reaction, user) => {
         try {
             let msg = await reaction.message.fetch(); 
             console.log(msg.id);
-            if(msg.id === '641294162309808128')
+            if(msg.id === '641294468095541251')
             {
                 console.log("Cached")
                 applyRole();
@@ -305,7 +305,7 @@ bot.on('messageReactionAdd', async (reaction, user) => {
     else 
     {
         console.log("Not a partial.");
-        if(reaction.message.id === '641294162309808128') {
+        if(reaction.message.id === '641294468095541251') {
             console.log(true);
             applyRole();
         }
@@ -333,7 +333,7 @@ bot.on('messageReactionRemove', async (reaction, user) => {
         try {
             let msg = await reaction.message.fetch(); 
             console.log(msg.id);
-            if(msg.id === '641294162309808128')
+            if(msg.id === '641294468095541251')
             {
                 console.log("Cached")
                 removeRole();
@@ -346,12 +346,13 @@ bot.on('messageReactionRemove', async (reaction, user) => {
     else 
     {
         console.log("Not a partial.");
-        if(reaction.message.id === '641294162309808128') {
+        if(reaction.message.id === '641294468095541251') {
             console.log(true);
             removeRole();
         }
     }
 })
+
 
 
 
