@@ -2,12 +2,7 @@ const Discord = require("discord.js");
 const errors = require("../utils/errors.js");
 
 module.exports.run = async (bot, message, args) => {
-  if (!message.member.hasPermission("MANAGE_ROLES"))
-    return errors.noPerms(message, "MANAGE_ROLES");
-  if (args[0] == "help") {
-    message.reply("Usage: !addrole <user> <role>");
-    return;
-  }
+ 
   let rMember =
     message.guild.member(message.mentions.users.first()) ||
     message.guild.members.get(args[0]);
@@ -21,14 +16,7 @@ module.exports.run = async (bot, message, args) => {
     return message.reply("Ze hebben die rol al.");
   await rMember.addRole(gRole.id);
 
-  try {
-    await rMember.send(
-      `Sorry voor de DM, maar mijn baas heeft mij gestuurd om te zeggen dat je de role ${gRole.name} hebt ontvangen.`
-    );
-  } catch (e) {
-    console.log(e.stack);
-    message.channel.send(`Gegroet, <@${rMember.id}>. Je hebt ${gRole.name} gekregen`)
-  }
+  message.channel.send(`Hallo, ${rMember.id}. Je hebt ${gRole.name} gekregen.`)
 };
 
 module.exports.help = {

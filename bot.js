@@ -28,7 +28,7 @@ fs.readdir("./commands/", (err, files) => {
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} is online on ${bot.guilds.size} servers`);
-  bot.user.setActivity("Over de Kelder. || V1.5", {
+  bot.user.setActivity("Bente douche. || V1.5", {
     type: "WATCHING"
   });
 });
@@ -136,7 +136,8 @@ bot.on("guildMemberRemove", (member, guild) => {
 });
 
 bot.on("message", message => {
-  const channelV = bot.channels.find(ch => ch.name === "verificatie");
+  if(message.author.bot) return;
+  const channelV = bot.channels.find(ch => ch.id === "641198118943195136");
   if (message.channel == channelV) {
     message.delete(1000);
   }
@@ -337,7 +338,7 @@ bot.on("message", message => {
 bot.on("message", message=>{
   if(message.author.bot) return
   if(message.content === 'oopsie'){
-    message.channel.send('Oopsie woopsie, we did a wittle fucky wucky. A wittle facko wacko')
+    message.channel.send('Oei')
   }
 })
 

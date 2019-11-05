@@ -32,9 +32,7 @@ exports.run = (bot, message, args) => {
       .addField('Gevoels Temperatuur', `${current.feelslike} Graden`, true)
       .addField('Wind', current.winddisplay, true)
       .addField('Luchtvochtigheid', `${current.humidity}%`, true)
-    message.channel.send({
-      embed
-    });
+    message.channel.send({embed});
   })
 }
 
