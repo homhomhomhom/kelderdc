@@ -5,8 +5,6 @@ const botconfig = require("./botconfig.json");
 let cooldown = new Set();
 let cdseconds = 5;
 let prefix = botconfig.prefix;
-const ytdl = require("ytdl-core");
-const queue = new Map();
 var servers = {};
 let xp = require("./xp.json");
 const tokenfile = require("./token.json");
@@ -143,76 +141,6 @@ bot.on("message", message => {
   const channelV = bot.channels.find(ch => ch.id === "641198118943195136");
   if (message.channel == channelV) {
     message.delete(1000);
-  }
-});
-
-bot.on("message", message => {
-  let args = message.content.substring(botconfig.prefix.length).split(" ");
-
-  switch (args[0]) {
-    case "play":
-      function play(connection, message) {
-        var server = servers[message.guild.id];
-        server.dispatcher = connection.playStream(
-          ytdl(server.queue[0], { filter: "audioonly" })
-        );
-
-        server.queue.shift();
-
-        server.dispatcher.on("end", function() {
-          if (server.queue[0]) {
-            play(connection, message);
-          } else {
-            connection.disconnect();
-          }
-        });
-      }
-
-      if (!args[1]) {
-        message.channel.send("Wat wil je dat ik afspeel?");
-        return;
-      }
-
-      if (!message.member.voiceChannel) {
-        message.channel.send("Je moet in een voice kanaal zitten.");
-        return;
-      }
-
-      if (!servers[message.guild.id])
-        servers[message.guild.id] = {
-          queue: []
-        };
-
-      var server = servers[message.guild.id];
-
-      server.queue.push(args[1]);
-
-      if (!message.guild.voiceConnection)
-        message.member.voiceChannel.join().then(function(connection) {
-          play(connection, message);
-        });
-      break;
-
-    case "skip":
-      var server = servers[message.guild.id];
-      if (server.dispatcher) server.dispatcher.end();
-      message.channel.send("Huidig liedje skippen");
-      break;
-
-    case "stop":
-      var server = servers[message.guild.id];
-      if (message.guild.voiceConnection) {
-        for (var i = server.queue.length - 1; i >= 0; i--) {
-          server.queue.splice(i, 1);
-        }
-
-        server.dispatcher.end();
-        message.channel.send("Queue is geeindigt");
-        console.log("stopped the queue");
-      }
-
-      if (message.guild.connection) message.guild.voiceConnection.disconnect();
-      break;
   }
 });
 
