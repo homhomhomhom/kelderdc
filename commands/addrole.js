@@ -17,7 +17,7 @@ module.exports.run = async (bot, message, args) => {
     return message.reply("Ze hebben die rol al.");
   await rMember.addRole(gRole.id);
 
-  message.channel.send(`Hallo, ${rMember.id}. Je hebt ${gRole.name} gekregen.`)
+  message.channel.send(`Hallo, <@${rMember.id}>. Je hebt ${gRole.name} gekregen.`)
 };
 
 module.exports.help = {
