@@ -265,6 +265,11 @@ bot.on("message", message => {
       let zwart = message.guild.roles.find(r => r.name === "Zwart");
       const memberZ = message.member;
       memberZ.addRole(zwart).catch(console.error);
+    break;
+    case "Geel".toLowerCase():
+      let geel = message.guild.roles.find(r => r.name === 'Geel');
+      const memberg = message.member;
+      memberg.addRole(geel).catch(console.error)
   }
 });
 
@@ -324,6 +329,12 @@ bot.on("message", message => {
         memberZ.removeRole(zwart).catch(console.error);
       }
       break;
+    case 'Geel'.toLowerCase():
+      if(member.roles.find(r=> r.name === 'Geel')){
+        let geel = message.guild.roles.find(r => r.name === 'Geel');
+        const memberg = message.member;
+        memberg.removeRole(geel).catch(console.error)
+      }
   }
 });
 
