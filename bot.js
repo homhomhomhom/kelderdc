@@ -1,9 +1,7 @@
 const Discord = require("discord.js");
 const fs = require("fs");
-const bot = new Discord.Client({partials: ['MESSAGE', 'CHANNEL']});
+const bot = new Discord.Client({ partials: ['MESSAGE'] });
 const botconfig = require("./botconfig.json");
-let prefix = botconfig.prefix;
-var servers = {};
 let xp = require("./xp.json");
 const tokenfile = require("./token.json");
 bot.commands = new Discord.Collection();
@@ -13,7 +11,7 @@ fs.readdir("./commands/", (err, files) => {
   if (jsfile.length <= 0) {
     console.log("Couldn't find commands.");
     return;
-  } 
+  }
 
   jsfile.forEach((f, i) => {
     let props = require(`./commands/${f}`);
@@ -63,7 +61,7 @@ bot.on("message", async message => {
       .setTitle("Leveltje omhoog!")
       .setColor("RANDOM")
       .addField("Nieuw leveltje", curlvl + 1)
-    
+
     message.channel.send(lvlup)
 
 
@@ -79,7 +77,7 @@ bot.on("message", async message => {
 
     if(xp[message.author.id].level >19 && xp[message.author.id].level <30){
       const member = message.member;
-      const roleLvlTwenty = message.guild.roles.find(r=> r.name ==='Kelder Makker')
+      const roleLvlTwenty = message.guild.roles.find(r => r.name === 'Kelder Makker')
 
       member.roleAdd(roleLvlTwenty)
     }
@@ -87,11 +85,11 @@ bot.on("message", async message => {
     if(xp[message.author.id].level >29){
       const member = message.member
       const roleLvlThirty = message.guild.roles.find(r => r.name === 'Kelder Held')
-      
+
       member.roleAdd(roleLvlThirty)
     }
-    
-    
+
+
   }
   fs.writeFile("./xp.json", JSON.stringify(xp), err => {
     if (err) console.log(err);
@@ -122,7 +120,7 @@ bot.on("guildMemberRemove", (member, guild) => {
 });
 
 bot.on("message", message => {
-  if(message.author.bot) return;
+  if (message.author.bot) return;
   const channelV = bot.channels.find(ch => ch.id === "641198118943195136");
   if (message.channel == channelV) {
     message.delete(1000);
@@ -133,10 +131,10 @@ bot.on("message", message => {
   if (message.content === botconfig.prefix + "clear") {
     if (message.member.hasPermission("MANAGE_MESSAGES")) {
       message.channel.fetchMessages().then(
-        function(list) {
+        function (list) {
           message.channel.bulkDelete(list);
         },
-        function(err) {
+        function (err) {
           message.channel.send("Niet gelukt");
         }
       );
@@ -153,7 +151,7 @@ bot.on("message", message => {
       let groen = message.guild.roles.find(r => r.name === "Groen");
       const memberG = message.member;
       memberG.addRole(groen).catch(console.error);
-    break;
+      break;
     case "Paars".toLowerCase():
       let paars = message.guild.roles.find(r => r.name === "Paars");
       const memberP = message.member;
@@ -163,7 +161,7 @@ bot.on("message", message => {
       let roze = message.guild.roles.find(r => r.name === "Roze");
       const memberR = message.member;
       memberR.addRole(roze).catch(console.error);
-    break;
+      break;
     case "Blauw".toLowerCase():
       let blauw = message.guild.roles.find(r => r.name === "Blauw");
       const memberB = message.member;
@@ -178,7 +176,7 @@ bot.on("message", message => {
       let zwart = message.guild.roles.find(r => r.name === "Zwart");
       const memberZ = message.member;
       memberZ.addRole(zwart).catch(console.error);
-    break;
+      break;
     case "Geel".toLowerCase():
       let geel = message.guild.roles.find(r => r.name === 'Geel');
       const memberg = message.member;
@@ -243,7 +241,7 @@ bot.on("message", message => {
       }
       break;
     case 'Geel'.toLowerCase():
-      if(member.roles.find(r=> r.name === 'Geel')){
+      if (member.roles.find(r => r.name === 'Geel')) {
         let geel = message.guild.roles.find(r => r.name === 'Geel');
         const memberg = message.member;
         memberg.removeRole(geel).catch(console.error)
@@ -262,98 +260,24 @@ bot.on("message", message => {
 });
 
 
-bot.on("message", message=>{
-  if(message.author.bot) return
-  if(message.content === 'oopsie'){
+bot.on("message", message => {
+  if (message.author.bot) return
+  if (message.content === 'oopsie') {
     message.channel.send('Oei')
   }
 })
 
 
-//reaction feature
-bot.on('messageReactionAdd', async (reaction, user) => {
-    let applyRole = async () => {
-        let emojiName = reaction.emoji.name;
-        let role = reaction.message.guild.roles.find(role => role.name.toLowerCase() === emojiName.toLowerCase());
-        let member = reaction.message.guild.members.find(member => member.id === user.id);
-        try {
-            if(role && member) {
-                console.log("Role and member found.");
-                await member.roles.add(role);
-                console.log("Done.");
-            }
-        }
-        catch(err) {
-            console.log(err);
-        }
-    }
-    if(reaction.message.partial)
-    {
-        try {
-            let msg = await reaction.message.fetch(); 
-            console.log(msg.id);
-            if(msg.id === '641294468095541251')
-            {
-                console.log("Cached")
-                applyRole();
-            }
-        }
-        catch(err) {
-            console.log(err);
-        }
-    }
-    else 
-    {
-        console.log("Not a partial.");
-        if(reaction.message.id === '641294468095541251') {
-            console.log(true);
-            applyRole();
-        }
-    }
-});
+bot.on('message', (message,args) => {
+  if(!message.member.hasPermission("MANAGE_ROLES") || !message.guild.owner) return message.channel.send("Oopsie woopsie! het lijkt erop dat je niet genoeg permissies hebt");
 
-bot.on('messageReactionRemove', async (reaction, user) => {
-    let removeRole = async () => {
-        let emojiName = reaction.emoji.name;
-        let role = reaction.message.guild.roles.find(role => role.name.toLowerCase() === emojiName.toLowerCase());
-        let member = reaction.message.guild.members.find(member => member.id === user.id);
-        try {
-            if(role && member) {
-                console.log("Role and member found.");
-                await member.roles.remove(role);
-                console.log("Done.");
-            }
-        }
-        catch(err) {
-            console.log(err);
-        }
-    }
-    if(reaction.message.partial)
-    {
-        try {
-            let msg = await reaction.message.fetch(); 
-            console.log(msg.id);
-            if(msg.id === '641294468095541251')
-            {
-                console.log("Cached")
-                removeRole();
-            }
-        }
-        catch(err) {
-            console.log(err);
-        }
-    }
-    else 
-    {
-        console.log("Not a partial.");
-        if(reaction.message.id === '641294468095541251') {
-            console.log(true);
-            removeRole();
-        }
-    }
+  let foeiM = message.mentions.members.first() || message.guild.get(args[0]);
+
+  let foeirole = message.guild.roles.find(`name`, "Foei");
+
+  foeiM.addRole(foeirole.id).then(()=>{
+      message.channel.send(`${foeiM.user.username} is stout geweest!`)
+  })
 })
-
-
-
 
 bot.login(tokenfile.token || process.env.TOKEN);
