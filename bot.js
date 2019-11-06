@@ -127,12 +127,7 @@ bot.on('message', message => {
       })
     }
 
-    if(`${results[0].userLevel}` === null){
-      con.query(`UPDATE userLevels SET userXP = ${results[0].userLevel === 1} WHERE userID = ${message.author.id}`, err =>{
-        if(err) throw err;
-        console.log('level')
-      }) 
-    }
+  
 
     user = message.author;
 
