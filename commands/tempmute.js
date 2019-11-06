@@ -13,7 +13,7 @@ module.exports.run = async (bot, message, args)=>{
 
     let mutetime = args[1]
     if(!mutetime) return message.reply("Hoelang moet de mute duren?")
-    if(tomute === tomute){
+    if(tomute === message.author){
         message.channel.send('Waarom probeer je jezelf tijdelijk te muten?')
     }else{
         await(tomute.addRole(muterole.id))

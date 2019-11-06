@@ -14,7 +14,7 @@ module.exports.run = async(bot,message,args)=>{
 
     let muterole = message.guild.roles.find(`name`, "Muted");
 
-    if(mutee === mutee){
+    if(mutee === message.author){
         message.channel.send('Waarom wil jij jezelf muten?')
     }else{
         mutee.addRole(muterole.id).then(()=>{

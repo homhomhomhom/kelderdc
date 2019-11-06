@@ -17,7 +17,7 @@ module.exports.run = async (bot, message, args) => {
   if (!reason){
     reason = "De kanker die dit heeft uitgevoerd heeft geen reden opgegeven";
   }
-  if(mutee === muteee){
+  if(mutee === message.author){
     message.channel.send('Je kan niet jezelf unmuten')
   }else{
     let muterole = message.guild.roles.find(r => r.name === "Muted");
