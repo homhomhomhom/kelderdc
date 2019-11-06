@@ -8,7 +8,6 @@ module.exports.run = async(bot, message, args)=>{
         return
     }
 
-    if(message.author === message.member) return ('Waarom wil je jezelf bannen?')
 
     let bUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if(!bUser) return errors.cantfindUser(message.channel)
@@ -18,15 +17,21 @@ module.exports.run = async(bot, message, args)=>{
     let bReason = args.join(" ").slice(22)
     if(!bReason) bReason = 'Stoffelo is onze papa'
 
-    let banEmbed = new Discord.RichEmbed()
+    if(bUser === bUser){
+        message.channel.send ('waarom wil jij jezelf bannen')
+    }else{
+        let banEmbed = new Discord.RichEmbed()
         .setDescription('Ban')
         .setColor("#bc0000")
         .addField('Gebruiker verbannen', bUser.user.username)
         .addField('Verbannen door', message.author.username)
         .addField("Reden", bReason)
 
-    message.guild.member(bUser).ban(bReason)
-    message.channel.send(banEmbed)
+        message.guild.member(bUser).ban(bReason)
+        message.channel.send(banEmbed)
+    }
+
+
 }
 
 module.exports.help ={
