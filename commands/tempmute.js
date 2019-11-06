@@ -4,6 +4,7 @@ const errors = require('../utils/errors')
 
 module.exports.run = async (bot, message, args)=>{
     if(!message.member.hasPermission("MANAGE_ROLES")) return errors.noPerms(message, "MANAGE_ROLES")
+    if(message.member === message.author) return('waarom wil je jezelf muten')
     let tomute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if(!tomute) return message.reply("Wie de kanker is dat?");
     if(tomute.hasPermission("MANAGE_MESSAGES")) return message.reply("Ik kan deze gebruiker niet muten");

@@ -8,6 +8,8 @@ module.exports.run = async(bot, message, args)=>{
         return
     }
 
+    if(message.author === message.member) return ('Waarom wil je jezelf bannen?')
+
     let bUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if(!bUser) return errors.cantfindUser(message.channel)
     if(bUser.id === bot.user.id){
