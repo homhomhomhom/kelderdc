@@ -2,9 +2,20 @@ const Discord = require("discord.js");
 const fs = require("fs");
 const bot = new Discord.Client({ partials: ['MESSAGE'] });
 const botconfig = require("./botconfig.json");
-let xp = require("./xp.json");
 const tokenfile = require("./token.json");
+var mysql = require('mysql')
+var con = mysql.createConnection(process.env.JAWSDB_URL || tokenfile.db)
 bot.commands = new Discord.Collection();
+
+
+//database
+con.connect(err =>{
+  if(err) throw (err)
+  console.log('Connected')
+})
+
+
+
 fs.readdir("./commands/", (err, files) => {
   if (err) console.log(err);
   let jsfile = files.filter(f => f.split(".").pop() === "js");
@@ -38,63 +49,6 @@ bot.on("message", async message => {
       prefixes: botconfig.prefix
     };
   }
-
-  let xpAdd = Math.floor(Math.random() * 7) + 8;
-  console.log(xpAdd);
-
-  if (!xp[message.author.id]) {
-    xp[message.author.id] = {
-      xp: 0,
-      level: 1
-    };
-  }
-  user = message.author
-  let curxp = xp[message.author.id].xp;
-  let curlvl = xp[message.author.id].level;
-  let nxtLvl = xp[message.author.id].level * 500;
-  xp[message.author.id].xp = curxp + xpAdd;
-  if (nxtLvl <= xp[message.author.id].xp) {
-    xp[message.author.id].level = curlvl + 1;
-    let lvlup = new Discord.RichEmbed()
-      .setThumbnail(user.avatarURL)
-      .setAuthor(user.username)
-      .setTitle("Leveltje omhoog!")
-      .setColor("RANDOM")
-      .addField("Nieuw leveltje", curlvl + 1)
-
-    message.channel.send(lvlup)
-
-
-
-    //lvl up roles
-
-    if(xp[message.author.id].level >10 && xp[message.author.id].level <20){
-        const member = message.member;
-        const roleLvlTen = message.guild.roles.find(r => r.name ==='Kelder Vrienden')
-        member.addRole(roleLvlTen)
-    }
-
-
-    if(xp[message.author.id].level >19 && xp[message.author.id].level <30){
-      const member = message.member;
-      const roleLvlTwenty = message.guild.roles.find(r => r.name === 'Kelder Makker')
-
-      member.roleAdd(roleLvlTwenty)
-    }
-
-    if(xp[message.author.id].level >29){
-      const member = message.member
-      const roleLvlThirty = message.guild.roles.find(r => r.name === 'Kelder Held')
-
-      member.roleAdd(roleLvlThirty)
-    }
-
-
-  }
-  fs.writeFile("./xp.json", JSON.stringify(xp), err => {
-    if (err) console.log(err);
-  });
-
   let prefix = prefixes[message.guild.id].prefixes;
   if (!message.content.startsWith(prefix)) return;
 
@@ -103,7 +57,7 @@ bot.on("message", async message => {
   let args = messageArray.slice(1);
 
   let commandfile = bot.commands.get(cmd.slice(prefix.length));
-  if (commandfile) commandfile.run(bot, message, args);
+  if (commandfile) commandfile.run(bot, message, args, con);
 
 });
 
@@ -111,6 +65,11 @@ bot.on("guildMemberAdd", (member, guild) => {
   const channel = member.guild.channels.find(ch => ch.name == "nieuwelingen");
   if (!channel) return;
   channel.send(`Hey ${member}, welkom in **De Kelder** 😳`);
+
+  con.query(`INSERT INTO userLevels (userID, userXP) VALUES ('${member.id}', 0)`, err =>{
+    if(err) throw (err)
+    console.log("New member added successfully! " + member.id)
+  })
 });
 
 bot.on("guildMemberRemove", (member, guild) => {
@@ -141,6 +100,30 @@ bot.on("message", message => {
     }
   }
 });
+
+
+function randomXP(){
+  return Math.ceil(Math.random() * 25)
+}
+
+//database
+bot.on('message', message =>{
+  con.query(`SELECT * FROM userLevels WHERE userID = ${message.author.id}`, (err, results)=>{
+    if(err) throw (err)
+    if(results.length === 0){
+      con.query(`INSERT INTO userLevels (userID, userXP) VALUES ('${message.author.id}', ${randomXP()})`, err =>{
+        if(err) throw err;
+        console.log("Successfully added " + message.author.id + ' to the database')
+      })
+    }else{
+      con.query(`UPDATE userLevels SET userXP = ${results[0].userXP + randomXP()} WHERE userID = ${message.author.id}`, err =>{
+        if(err) throw err;
+        console.log("Successfully added user xp!")
+      })
+    }
+  })
+})
+
 
 //color
 
@@ -265,19 +248,6 @@ bot.on("message", message => {
   if (message.content === 'oopsie') {
     message.channel.send('Oei')
   }
-})
-
-
-bot.on('message', (message,args) => {
-  if(!message.member.hasPermission("MANAGE_ROLES") || !message.guild.owner) return message.channel.send("Oopsie woopsie! het lijkt erop dat je niet genoeg permissies hebt");
-
-  let foeiM = message.mentions.members.first() || message.guild.get(args[0]);
-
-  let foeirole = message.guild.roles.find(`name`, "Foei");
-
-  foeiM.addRole(foeirole.id).then(()=>{
-      message.channel.send(`${foeiM.user.username} is stout geweest!`)
-  })
 })
 
 bot.login(tokenfile.token || process.env.TOKEN);

@@ -17,6 +17,7 @@
     "fs": "0.0.1-security",
     "moment": "^2.24.0",
     "ms": "^2.1.2",
+    "mysql": "^2.17.1",
     "superagent": "^5.1.0",
     "weather-js": "^2.0.0"
   }
