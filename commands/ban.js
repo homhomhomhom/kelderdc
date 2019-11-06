@@ -17,7 +17,7 @@ module.exports.run = async(bot, message, args)=>{
     let bReason = args.join(" ").slice(22)
     if(!bReason) bReason = 'Stoffelo is onze papa'
 
-    if(bUser === message.author){
+    if(bUser.id === message.author.id){
         message.channel.send ('waarom wil jij jezelf bannen')
     }else{
         let banEmbed = new Discord.RichEmbed()

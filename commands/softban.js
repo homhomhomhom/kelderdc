@@ -13,7 +13,7 @@ module.exports.run = async(bot, message, args)=>{
 
     if(!message.guild.me.hasPermission(["BAN_MEMBERS", "ADMINISTRATOR"])) return message.channel.send('Oei, ik heb hier geen rechten voor')
 
-    if(banMember === message.author){
+    if(banMember === message.author.id){
         message.channel.send('Waarom probeer jij jezelf te softbannen?')
     }else{
         banMember.send(`Je bent uit ${message.guild.name} gekankert. Dit is de opgegeven reden ${reason}`).then(()=>
