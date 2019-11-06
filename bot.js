@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
 const fs = require("fs");
-const bot = new Discord.Client({ partials: ['MESSAGE'] });
+const bot = new Discord.Client({
+  partials: ['MESSAGE']
+});
 const botconfig = require("./botconfig.json");
 const tokenfile = require("./token.json");
 var mysql = require('mysql')
@@ -9,8 +11,8 @@ bot.commands = new Discord.Collection();
 
 
 //database
-con.connect(err =>{
-  if(err) throw (err)
+con.connect(err => {
+  if (err) throw (err)
   console.log('Connected')
 })
 
@@ -66,8 +68,8 @@ bot.on("guildMemberAdd", (member, guild) => {
   if (!channel) return;
   channel.send(`Hey ${member}, welkom in **De Kelder** 😳`);
 
-  con.query(`INSERT INTO userLevels (userID, userXP) VALUES ('${member.id}', 0)`, err =>{
-    if(err) throw (err)
+  con.query(`INSERT INTO userLevels (userID, userXP, userLevel) VALUES ('${member.id}', 0, 1)`, err => {
+    if (err) throw (err)
     console.log("New member added successfully! " + member.id)
   })
 });
@@ -102,27 +104,65 @@ bot.on("message", message => {
 });
 
 
-function randomXP(){
-  return Math.ceil(Math.random() * 25)
+function randomXP() {
+  return Math.floor(Math.random() * 7) + 8;
 }
 
+
 //database
-bot.on('message', message =>{
-  con.query(`SELECT * FROM userLevels WHERE userID = ${message.author.id}`, (err, results)=>{
-    if(err) throw (err)
-    if(results.length === 0){
-      con.query(`INSERT INTO userLevels (userID, userXP) VALUES ('${message.author.id}', ${randomXP()})`, err =>{
-        if(err) throw err;
+bot.on('message', message => {
+  if(message.author.bot) return;
+
+  con.query(`SELECT * FROM userLevels WHERE userID = ${message.author.id}`, (err, results) => {
+    if (err) throw (err)
+    if (results.length === 0) {
+      con.query(`INSERT INTO userLevels (userID, userXP, userLevel) VALUES ('${message.author.id}', ${randomXP()}, 1)`, err => {
+        if (err) throw err;
         console.log("Successfully added " + message.author.id + ' to the database')
       })
-    }else{
-      con.query(`UPDATE userLevels SET userXP = ${results[0].userXP + randomXP()} WHERE userID = ${message.author.id}`, err =>{
-        if(err) throw err;
+    } else {
+      con.query(`UPDATE userLevels SET userXP = ${results[0].userXP + randomXP()} WHERE userID = ${message.author.id}`, err => {
+        if (err) throw err;
         console.log("Successfully added user xp!")
       })
     }
+
+    if(`${results[0].userLevel}` === null){
+      con.query(`UPDATE userLevels SET userXP = ${results[0].userLevel === 1} WHERE userID = ${message.author.id}`, err =>{
+        if(err) throw err;
+        console.log('level')
+      }) 
+    }
+
+    user = message.author;
+
+    let curxp = `${results[0].userXP}`;
+    let curLvl = `${results[0].userLevel}`;
+    let nxtLvl = `${results[0].userLevel}` * 500;
+    curxp = curxp + randomXP()
+    if(nxtLvl <= `${results[0].userXP}` ){
+      con.query(`UPDATE userLevels SET userLevel = ${results[0].userLevel + 1} WHERE userID = ${message.author.id}`, err =>{
+        if(err) throw err;
+        console.log("leveltje omhoog")
+      })
+      curLvl = `${results[0].userLevel}`;
+
+      let lvlup = new Discord.RichEmbed()
+        .setThumbnail(user.avatarURL)
+        .setAuthor(user.username)
+        .setTitle('Leveltje omhoog')
+        .setColor("RANDOM")
+        .addField("Nieuw leveltje", `${results[0].userLevel}` )
+      message.channel.send(lvlup)
+
+
+    }
+    
+    
   })
+
 })
+
 
 
 //color
@@ -208,27 +248,27 @@ bot.on("message", message => {
       } else {
         return;
       }
-    case "Rood".toLowerCase():
-      if (member.roles.find(r => r.name === "Rood")) {
-        let rood = message.guild.roles.find(r => r.name === "Rood");
-        const memberRO = message.member;
-        memberRO.removeRole(rood).catch(console.error);
-      } else {
-        return;
-      }
-    case "Zwart".toLowerCase():
-      if (member.roles.find(r => r.name === "Zwart")) {
-        let zwart = message.guild.roles.find(r => r.name === "Zwart");
-        const memberZ = message.member;
-        memberZ.removeRole(zwart).catch(console.error);
-      }
-      break;
-    case 'Geel'.toLowerCase():
-      if (member.roles.find(r => r.name === 'Geel')) {
-        let geel = message.guild.roles.find(r => r.name === 'Geel');
-        const memberg = message.member;
-        memberg.removeRole(geel).catch(console.error)
-      }
+      case "Rood".toLowerCase():
+        if (member.roles.find(r => r.name === "Rood")) {
+          let rood = message.guild.roles.find(r => r.name === "Rood");
+          const memberRO = message.member;
+          memberRO.removeRole(rood).catch(console.error);
+        } else {
+          return;
+        }
+        case "Zwart".toLowerCase():
+          if (member.roles.find(r => r.name === "Zwart")) {
+            let zwart = message.guild.roles.find(r => r.name === "Zwart");
+            const memberZ = message.member;
+            memberZ.removeRole(zwart).catch(console.error);
+          }
+          break;
+        case 'Geel'.toLowerCase():
+          if (member.roles.find(r => r.name === 'Geel')) {
+            let geel = message.guild.roles.find(r => r.name === 'Geel');
+            const memberg = message.member;
+            memberg.removeRole(geel).catch(console.error)
+          }
   }
 });
 
