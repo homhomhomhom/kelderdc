@@ -13,14 +13,18 @@ module.exports.run = async (bot, message, args)=>{
 
     let mutetime = args[1]
     if(!mutetime) return message.reply("Hoelang moet de mute duren?")
+    if(tomute === tomute){
+        message.channel.send('Waarom probeer je jezelf tijdelijk te muten?')
+    }else{
+        await(tomute.addRole(muterole.id))
+        message.reply(`<@${tomute.id}> is gemute voor ${ms(ms(mutetime))}`)
+    
+        setTimeout(function(){
+            tomute.removeRole(muterole.id);
+            message.channel.send(`<@${tomute.id}> is succesvol geunmute!`);
+        }, ms(mutetime));
+    }
 
-    await(tomute.addRole(muterole.id))
-    message.reply(`<@${tomute.id}> is gemute voor ${ms(ms(mutetime))}`)
-
-    setTimeout(function(){
-        tomute.removeRole(muterole.id);
-        message.channel.send(`<@${tomute.id}> is succesvol geunmute!`);
-    }, ms(mutetime));
 
 }
 

@@ -10,24 +10,29 @@ module.exports.run = async (bot, message, args) => {
       "Ik heb geen permissie om deze rollen toe tevoegen"
     );
 
-  let mutee =
-    message.mentions.members.first() || message.guild.members.get(args[0]);
+  let mutee =message.mentions.members.first() || message.guild.members.get(args[0]);
   if (!mutee) return message.channel.send("Wie moet ik unmuten?");
 
   let reason = args.slice(1).join(" ");
-  if (!reason)
+  if (!reason){
     reason = "De kanker die dit heeft uitgevoerd heeft geen reden opgegeven";
-
-  let muterole = message.guild.roles.find(r => r.name === "Muted");
-  if (!muterole) return message.channel.send(`Kanker op`);
-  if (!mutee.roles.find(r => r.name === "Muted")) {
-    message.channel.send("Hallo");
-  } else {
-    mutee.removeRole(muterole.id).then(() => {
-      message.channel.send(`${mutee.user.username} is geunmute`);
-    });
   }
-};
+  if(mutee === muteee){
+    message.channel.send('Je kan niet jezelf unmuten')
+  }else{
+    let muterole = message.guild.roles.find(r => r.name === "Muted");
+    if (!muterole) return message.channel.send(`Kanker op`);
+    if (!mutee.roles.find(r => r.name === "Muted")) {
+      message.channel.send("Hallo");
+    } else {
+      mutee.removeRole(muterole.id).then(() => {
+        message.channel.send(`${mutee.user.username} is geunmute`);
+      });
+    }
+  };
+  }
+  
+
 
 module.exports.help = {
   name: "unmute"
