@@ -126,7 +126,15 @@ bot.on('message', message => {
         console.log("Successfully added user xp!")
       })
     }
-
+    con.query(`SELECT userLevel FROM userLevels WHERE userID = ${message.author.id}`, (err, results)=>{
+      if(err) throw err;
+      if(`${results[0].userLevel === null}`){
+        `INSERT INTO userLevels (userLevel) VALUES(1) WHERE userID = ${message.author.id}`, err =>{
+          if(err) throw err
+          console.log('level')
+        }
+      }
+    })
   
 
     user = message.author;
