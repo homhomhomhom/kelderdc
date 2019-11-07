@@ -127,9 +127,7 @@ bot.on('message', message => {
       })
     }
 
-    if (`${results[0].userLevel == null}`) {
-      `INSERT INTO userLevels (userLevel) VALUES(1) WHERE userID = ${message.author.id}`
-    }
+    
 
 
 
