@@ -35,7 +35,7 @@ fs.readdir("./commands/", (err, files) => {
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} is online on ${bot.guilds.size} servers`);
-  bot.user.setActivity("Bente die aan het doesjen is. || V1.5", {
+  bot.user.setActivity("negers || V2", {
     type: "WATCHING"
   });
 });
