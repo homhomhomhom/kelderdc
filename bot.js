@@ -111,7 +111,7 @@ function randomXP() {
 
 //database
 bot.on('message', message => {
-  if(message.author.bot) return;
+  if (message.author.bot) return;
 
   con.query(`SELECT * FROM userLevels WHERE userID = ${message.author.id}`, (err, results) => {
     if (err) throw (err)
@@ -126,15 +126,12 @@ bot.on('message', message => {
         console.log("Successfully added user xp!")
       })
     }
-    
-    if(`${results[0].userLevel === null}`){
-      `INSERT INTO userLevels (userLevel) VALUES(1) WHERE userID = ${message.author.id}`, err =>{
-        if(err) throw err
-        console.log('level')
-      }
+
+    if (`${results[0].userLevel == null}`) {
+      `INSERT INTO userLevels (userLevel) VALUES(1) WHERE userID = ${message.author.id}`
     }
 
-  
+
 
     user = message.author;
 
@@ -142,9 +139,9 @@ bot.on('message', message => {
     let curLvl = `${results[0].userLevel}`;
     let nxtLvl = `${results[0].userLevel}` * 500;
     curxp = curxp + randomXP()
-    if(nxtLvl <= `${results[0].userXP}` ){
-      con.query(`UPDATE userLevels SET userLevel = ${results[0].userLevel + 1} WHERE userID = ${message.author.id}`, err =>{
-        if(err) throw err;
+    if (nxtLvl <= `${results[0].userXP}`) {
+      con.query(`UPDATE userLevels SET userLevel = ${results[0].userLevel + 1} WHERE userID = ${message.author.id}`, err => {
+        if (err) throw err;
         console.log("leveltje omhoog")
       })
       curLvl = `${results[0].userLevel}`;
@@ -154,13 +151,13 @@ bot.on('message', message => {
         .setAuthor(user.username)
         .setTitle('Leveltje omhoog')
         .setColor("RANDOM")
-        .addField("Nieuw leveltje", `${results[0].userLevel}` )
+        .addField("Nieuw leveltje", `${results[0].userLevel}`)
       message.channel.send(lvlup)
 
 
     }
-    
-    
+
+
   })
 
 })
