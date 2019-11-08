@@ -18,9 +18,6 @@ module.exports.run = async(bot, message, args)=>{
     }else{
         banMember.send(`Je bent uit ${message.guild.name} gekankert. Dit is de opgegeven reden ${reason}`).then(()=>
         message.guild.ban(banMember, {days: 1, reason:reason})).then(()=> message.guild.unban(banMember.id, {reason:"Softban"})).catch(err => console.error(err))
-    
-        message.channel.send(`**${banMember.user.tag} is eruitgegooit**`)
-    
         const embed = new Discord.RichEmbed()
             .setColor(botconfig.red)
             .setAuthor(`${message.guild.name}`, message.guild.iconURL)

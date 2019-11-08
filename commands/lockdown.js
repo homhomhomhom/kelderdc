@@ -5,7 +5,7 @@ exports.run = (client, message, args) => {
 
   if (!client.lockit) client.lockit = [];
   let time = args.join(" ");
-  let validUnlocks = ["release", "unlock"];
+  let validUnlocks = ["uncock"];
   if (!time) return message.reply("Hoelang moet ik het kanaal sluiten?");
 
   if (validUnlocks.includes(time)) {
@@ -14,7 +14,7 @@ exports.run = (client, message, args) => {
         SEND_MESSAGES: null
       })
       .then(() => {
-        message.channel.sendMessage("Lockdown opgeheven.");
+        message.channel.sendMessage("Cockdown opgeheven.");
         clearTimeout(client.lockit[message.channel.id]);
         delete client.lockit[message.channel.id];
       })

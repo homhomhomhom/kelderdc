@@ -63,6 +63,31 @@ bot.on("message", async message => {
 
 });
 
+
+//level roles
+
+bot.on('message', message =>{
+  con.query(`SELECT * FROM userLevels WHERE userID=${message.author.id}`, (err, results)=>{
+    if(`${results[0].userLevel > 9}`){
+      let member = message.member;
+
+      let roleLvlTen = message.guild.roles.find(r => r.name === 'Kelder Vrienden')
+
+      member.addRole(roleLvlTen)
+      console.log('Role level 10 successfully added.')
+    }
+
+    if(`${results[0].userLevel > 19}`){
+      let member = message.member;
+      let roleLvlTwenty = message.guild.roles.find(r => r.name === 'Kelder Makker')
+
+      member.addRole(roleLvlTwenty)
+      console.log('Role level 20 successfully added.')
+    }
+  })
+})
+
+
 bot.on("guildMemberAdd", (member, guild) => {
   const channel = member.guild.channels.find(ch => ch.name == "nieuwelingen");
   if (!channel) return;

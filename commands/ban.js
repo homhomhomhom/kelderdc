@@ -24,7 +24,7 @@ module.exports.run = async(bot, message, args)=>{
         .setDescription('Ban')
         .setColor("#bc0000")
         .addField('Gebruiker verbannen', bUser.user.username)
-        .addField('Verbannen door', message.author.username)
+        .addField('Verbannen door', 'Bente')
         .addField("Reden", bReason)
 
         message.guild.member(bUser).ban(bReason)
