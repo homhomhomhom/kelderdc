@@ -203,7 +203,6 @@ bot.on('message', message =>{
 })
 
 //color
-
 bot.on("message", message => {
   let args = message.content.substring(botconfig.prefix.length).split(" ");
   switch (args[0]) {
