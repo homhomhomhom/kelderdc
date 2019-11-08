@@ -69,6 +69,7 @@ bot.on("message", async message => {
 bot.on('message', message =>{
   if(message.author.bot ) return;
   con.query(`SELECT * FROM userLevels WHERE userID=${message.author.id}`, (err, results)=>{
+    if(message.author.bot) return
     if(`${results[0].userLevel > 9}`){
       let member = message.member;
 
