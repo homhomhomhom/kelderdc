@@ -156,8 +156,7 @@ bot.on('message', message => {
       `INSERT INTO userLevels (userLevel) VALUES(1) WHERE userID = ${message.author.id}`
     }
 
-
-
+    
     user = message.author;
 
     let curxp = `${results[0].userXP}`;
@@ -178,13 +177,8 @@ bot.on('message', message => {
         .setColor("RANDOM")
         .addField("Nieuw leveltje", `${results[0].userLevel}`)
       message.channel.send(lvlup)
-
-
     }
-
-
   })
-
 })
 
 
