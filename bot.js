@@ -165,7 +165,11 @@ bot.on('message', message => {
 
 //level up
 
-
+bot.on('message', message =>{
+  if(message.content === 'bente'){
+    message.channel.send("AAAAAAAAAAAHHHHHHHHHH")
+  }
+})
 
 //color
 
