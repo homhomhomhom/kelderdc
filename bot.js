@@ -8,7 +8,7 @@ const tokenfile = require("./token.json");
 var mysql = require('mysql')
 var con = mysql.createConnection(process.env.JAWSDB_URL || tokenfile.db)
 bot.commands = new Discord.Collection();
-
+let prefix = botconfig.prefix
 
 //database
 con.connect(err => {
@@ -35,7 +35,7 @@ fs.readdir("./commands/", (err, files) => {
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} is online on ${bot.guilds.size} servers`);
-  bot.user.setActivity("negers || V2", {
+  bot.user.setActivity("Over de Kelder || V2", {
     type: "WATCHING"
   });
 });
@@ -188,6 +188,19 @@ bot.on('message', message => {
 })
 
 
+//level up
+
+bot.on('message', message =>{
+  if(message.content === 'bente'){
+    message.channel.send("AAAAAAAAAAAHHHHHHHHHH")
+  }
+})
+
+bot.on('message', message =>{
+  if(message.content === 'gio'){
+    message.channel.send("HMMMMMMMMMMMMMMM")
+  }
+})
 
 //color
 
