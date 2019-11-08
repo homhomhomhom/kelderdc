@@ -67,6 +67,7 @@ bot.on("message", async message => {
 //level roles
 
 bot.on('message', message =>{
+  if(message.author.bot ) return;
   con.query(`SELECT * FROM userLevels WHERE userID=${message.author.id}`, (err, results)=>{
     if(`${results[0].userLevel > 9}`){
       let member = message.member;
@@ -90,6 +91,7 @@ bot.on('message', message =>{
 
 bot.on("guildMemberAdd", (member, guild) => {
   const channel = member.guild.channels.find(ch => ch.name == "nieuwelingen");
+
   if (!channel) return;
   channel.send(`Hey ${member}, welkom in **De Kelder** 😳`);
 
