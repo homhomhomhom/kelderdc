@@ -171,6 +171,12 @@ bot.on('message', message =>{
   }
 })
 
+bot.on('message', message =>{
+  if(message.content === 'gio'){
+    message.channel.send("HMMMMMMMMMMMMMMM")
+  }
+})
+
 //color
 
 bot.on("message", message => {
