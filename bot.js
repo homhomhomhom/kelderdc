@@ -70,8 +70,8 @@ bot.on('message', message =>{
   if(message.author.bot ) return;
   con.query(`SELECT * FROM userLevels WHERE userID=${message.author.id}`, (err, results)=>{
     if(message.author.bot) return
-    if(`${results[0].userLevel > 9}`){
-      let member = message.author;
+    if(results[0].userLevel > 9 && results[0].userLevel <=19){
+      let member = message.member;
 
       let roleLvlTen = message.guild.roles.find(r => r.name === 'Kelder Vrienden')
 
@@ -79,8 +79,8 @@ bot.on('message', message =>{
       console.log('Role level 10 successfully added.')
     }
 
-    if(`${results[0].userLevel > 19}`){
-      let member = message.author;
+    if(results[0].userLevel  >= 19 && results[0].userLevel <30){
+      let member = message.member;
       let roleLvlTwenty = message.guild.roles.find(r => r.name === 'Kelder Makker')
 
       member.addRole(roleLvlTwenty)
