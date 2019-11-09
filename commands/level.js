@@ -11,12 +11,12 @@ module.exports.run = async(bot, message, args, con) =>{
         if(err) throw err;
   
         let lvlembed = new Discord.RichEmbed()
-            .setTitle('Level')
-            .setAuthor(user.username)
+            .setTitle('Level informatie')
+            .setDescription(`Gebruiker: <@${results[0].userID}>`)
             .setColor("RANDOM")
             .addField('Level', `${results[0].userLevel}`, true)
             .addField("XP", `${results[0].userXP}`, true)
-            .setFooter('uwu', user.displayAvatarURL)
+            .setFooter('BENTE AAAAAAAAHHHHH', user.displayAvatarURL)
 
         message.channel.send(lvlembed).then(message => {
             message.delete(5000)
