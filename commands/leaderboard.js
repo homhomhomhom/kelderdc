@@ -22,9 +22,6 @@ module.exports.run = async(bot, message, args, con) =>{
                 .addField(`Level: ${results[4].userLevel}`, `XP: ${results[4].userXP}`)
             message.channel.send(embedLB)
         })
-
-
-
     })
 }
 

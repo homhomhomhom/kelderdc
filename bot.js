@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const bot = new Discord.Client({
-  partials: ['MESSAGE']
+  partials: Object.values(["MESSAGE", "CHANNEL"]),
 });
 const botconfig = require("./botconfig.json");
 const tokenfile = require("./token.json");
@@ -64,30 +64,6 @@ bot.on("message", async message => {
 });
 
 
-//level roles
-
-bot.on('message', message =>{
-  if(message.author.bot ) return;
-  con.query(`SELECT * FROM userLevels WHERE userID=${message.author.id}`, (err, results)=>{
-    if(message.author.bot) return
-    if(results[0].userLevel > 9 && results[0].userLevel <=19){
-      let member = message.member;
-
-      let roleLvlTen = message.guild.roles.find(r => r.name === 'Kelder Vrienden')
-
-      member.addRole(roleLvlTen)
-      console.log('Role level 10 successfully added.')
-    }
-
-    if(results[0].userLevel  >= 19 && results[0].userLevel <30){
-      let member = message.member;
-      let roleLvlTwenty = message.guild.roles.find(r => r.name === 'Kelder Makker')
-
-      member.addRole(roleLvlTwenty)
-      console.log('Role level 20 successfully added.')
-    }
-  })
-})
 
 
 bot.on("guildMemberAdd", (member, guild) => {
@@ -183,8 +159,6 @@ bot.on('message', message => {
     }
   })
 })
-
-
 //level up
 
 bot.on('message', message =>{
