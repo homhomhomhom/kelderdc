@@ -16,7 +16,7 @@ module.exports.run = async(bot, message, args)=>{
     if(banMember === message.author.id){
         message.channel.send('Waarom probeer jij jezelf te softbannen?')
     }else{
-        banMember.send(`Je bent uit ${message.guild.name} gekankert. Dit is de opgegeven reden ${reason}`).then(()=>
+        banMember.send(`Je bent uit ${message.guild.name} gegooid. Dit is de opgegeven reden ${reason}`).then(()=>
         message.guild.ban(banMember, {days: 1, reason:reason})).then(()=> message.guild.unban(banMember.id, {reason:"Softban"})).catch(err => console.error(err))
         const embed = new Discord.RichEmbed()
             .setColor(botconfig.red)

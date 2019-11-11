@@ -12,7 +12,7 @@ module.exports.run = async(bot, message, args)=>{
     let bUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if(!bUser) return errors.cantfindUser(message.channel)
     if(bUser.id === bot.user.id){
-        return message.channel.send("Opgekankerd, kanker homo")
+        return message.channel.send("Doei")
     }
     let bReason = args.join(" ").slice(22)
     if(!bReason) bReason = 'Stoffelo is onze papa'

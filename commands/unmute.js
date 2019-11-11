@@ -15,7 +15,7 @@ module.exports.run = async (bot, message, args) => {
 
   let reason = args.slice(1).join(" ");
   if (!reason){
-    reason = "De kanker die dit heeft uitgevoerd heeft geen reden opgegeven";
+    reason = "Je kan weer praten";
   }
   if(mutee === message.member){
     message.channel.send('Je kan niet jezelf unmuten')

@@ -5,7 +5,7 @@ exports.run = (client, message, args) => {
 
   if (!client.lockit) client.lockit = [];
   let time = args.join(" ");
-  let validUnlocks = ["uncock"];
+  let validUnlocks = ["unlock"];
   if (!time) return message.reply("Hoelang moet ik het kanaal sluiten?");
 
   if (validUnlocks.includes(time)) {
@@ -49,5 +49,5 @@ exports.run = (client, message, args) => {
 
 
 exports.help = {
-  name: "cockdown",
+  name: "lockdown",
 };

@@ -6,10 +6,10 @@ module.exports.run = async(bot,message,args)=>{
     if(!message.member.hasPermission("MANAGE_ROLES") || !message.guild.owner) return message.channel.send("Oopsie woopsie! het lijkt erop dat je niet genoeg permissies hebt");
 
     let mutee = message.mentions.members.first() || message.guild.get(args[0]);
-    if(!mutee) return message.channel.send("Wie de ronker moet ik muten");
+    if(!mutee) return message.channel.send("Wie moet ik muten");
 
     let reason = args.slice(1).join(" ");
-    if(!reason) reason = "Geen reden opgegeven";
+    if(!reason) reason = "AAAAAAAAHHHHHHHH";
 
 
     let muterole = message.guild.roles.find(`name`, "Muted");
